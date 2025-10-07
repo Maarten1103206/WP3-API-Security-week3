@@ -5,7 +5,7 @@ from app.routes.api_routes import api_bp
 from app.routes.student_routes import student_bp
 from app.routes.admin_routes import admin_bp
 from flask_bcrypt import Bcrypt
-bcrypt = Bcrypt(app)  # of via init_app in app factory
+bcrypt = Bcrypt  # of via init_app in app factory
 def create_app():
     app = Flask(__name__)
 
