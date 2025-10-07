@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Studentenoverzicht</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="admin-navbar">
+    <div class="admin-navbar-left">
+        Welkom, <strong>{{ session.username }}</strong>
+    </div>
+    <div class="admin-navbar-right">
+        <a href="{{ url_for('admin.logout') }}">Uitloggen</a>
+    </div>
+</div>
+
+<h3>Nieuwe student toevoegen</h3>
+
+<form method="POST" action="{{ url_for('admin.add_student_view') }}" class="add-student-form">
+    <input type="text" name="student_number" placeholder="Studentnummer" required>
+    <input type="text" name="name" placeholder="Naam" required>
+    <input type="text" name="class" placeholder="Klas" required>
+    <button type="submit">Opslaan</button>
+</form>
+
+<a href="{{ url_for('admin.export_students') }}" class="export-btn">Exporteer naar CSV</a>
+
+<table border="1" cellpadding="10" cellspacing="0" style="margin: 20px auto; background: white;">
+    <tr>
+        <th>Studentnummer</th>
+        <th>Naam</th>
+        <th>Klas</th>
+        <th>Laatste ingevuld op</th>
+        <th>Action Type</th>
+        <th>Acties</th>
+    </tr>
+
+    {% for s in students %}
+    <tr>
+        <td>{{ s.student_number }}</td>
+        <td>{{ s.name }}</td>
+        <td>{{ s.class }}</td>
+        <td>{{ s.last_answer_date or "-" }}</td>
+        <td>{{ s.action_type }}</td>
+        <td class="actions-cell">
+            <form method="POST" action="{{ url_for('admin.delete_student', student_number=s.student_number) }}"
+                  style="display:inline;">
+                <button type="submit" class="delete-btn">x</button>
+            </form>
+            <a href="{{ url_for('admin.student_details', student_number=s.student_number) }}" class="details-btn">👁️</a>
+        </td>
+
+
+    </tr>
+
+
+    </tr>
+
+    {% endfor %}
+</table>
+
+</body>
+</html>

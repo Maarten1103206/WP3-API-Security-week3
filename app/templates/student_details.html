@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Studentendetails</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="admin-navbar">
+    <span>Student: {{ student.name }}</span>
+    <a href="{{ url_for('admin.dashboard') }}">&#8592; Terug naar dashboard</a>
+</div>
+
+<div class="student-details">
+    <h2>Studentgegevens</h2>
+    <p><strong>Studentnummer:</strong> {{ student.student_number }}</p>
+    <p><strong>Naam:</strong> {{ student.name }}</p>
+    <p><strong>Klas:</strong> {{ student.class_name }}</p>
+    <p><strong>Team:</strong> {{ student.team or '-' }}</p>
+    <form method="POST">
+        <label for="team">Kies team:</label>
+        <input type="text" id="team" name="team" value="{{ student.team }}">
+        <button type="submit">Opslaan</button>
+    </form>
+
+    <h3>Beantwoorde stellingen</h3>
+    <table>
+        <tr>
+            <th>Stelling #</th>
+            <th>Keuze</th>
+            <th>Resultaat</th>
+        </tr>
+        {% for answer in answers %}
+        <tr>
+            <td>{{ answer.statement.number }}</td>
+            <td>{{ answer.choice_number }}</td>
+            <td>
+                {% if answer.choice_number == 1 %}
+                {{ answer.statement.choice1_letter }}
+                {% elif answer.choice_number == 2 %}
+                {{ answer.statement.choice2_letter }}
+                {% else %}
+                -
+                {% endif %}
+            </td>
+
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+</body>
+</body>
+</html>

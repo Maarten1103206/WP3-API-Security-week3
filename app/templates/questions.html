@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Vragenlijst</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<h2>Welkom, <span id="student-name"></span> (<span id="student-class"></span>)</h2>
+
+<div id="progress-container" style="margin-bottom: 20px;">
+    <div id="progress-bar" style="width: 0%; height: 20px; background-color: #3498db; border-radius: 10px;"></div>
+</div>
+<p><span id="progress-text">0</span>/20 ingevuld</p>
+
+
+<div id="question-box">
+    <h3>Stelling <span id="statement-number"></span></h3>
+    <button id="choice1" data-choice="1">...</button>
+    <button id="choice2" data-choice="2">...</button>
+</div>
+
+<div id="finished-box" style="display: none;">
+    <h3>Dank je wel!</h3>
+    <p>Je action type is: <strong id="action-type"></strong></p>
+    <a href="{{ url_for('student.index') }}" class="back-btn">← Terug naar begin</a>
+</div>
+
+
+<script>
+    const studentNumber = localStorage.getItem("student_number");
+</script>
+<script src="{{ url_for('static', filename='js/statements.js') }}"></script>
+</body>
+</html>

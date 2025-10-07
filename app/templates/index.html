@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Inloggen student</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<a href="/admin/login" class="admin-link">Docenten login</a>
+
+<h2>Welkom bij de Action Types vragenlijst</h2>
+<form id="login-form">
+    <label for="student_number">Vul hier je studentnummer in om te beginnen:</label><br>
+    <input type="text" id="student_number" name="student_number" required><br><br>
+    <button type="submit">Start vragenlijst</button>
+</form>
+
+<p id="foutmelding" style="color: red; display: none;">Studentnummer niet gevonden.</p>
+
+<script>
+    document.getElementById("login-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const nummer = document.getElementById("student_number").value;
+
+        fetch(`/api/student/${nummer}/statement`)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error("Student niet gevonden");
+                }
+                return res.json();
+            })
+            .then(() => {
+                localStorage.setItem("student_number", nummer);
+                window.location.href = "/vragenlijst";
+            })
+            .catch(() => {
+                document.getElementById("foutmelding").style.display = "block";
+            });
+    });
+</script>
+</body>
+</html>
